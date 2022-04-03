@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Gacela\Framework\Gacela;
+use JesusValera\Anmeldung\AnmeldungFacade;
+
+$cwd = getcwd();
+if (!file_exists($autoloadPath = $cwd . '/vendor/autoload.php')) {
+    exit("Cannot load composer's autoload file: " . $autoloadPath);
+}
+
+require $autoloadPath;
+
+Gacela::bootstrap($cwd);
+
+$facade = new AnmeldungFacade();
+
+var_dump($facade->findAppointments());

@@ -1,0 +1,40 @@
+{
+    "name": "jesusvalera/berlin-anmeldung",
+    "description": "Check for available Anmeldung appointment (apartment registration) in Berlin",
+    "keywords": ["php", "registration", "berlin", "anmeldung", "wohnung"],
+    "authors": [
+        {
+            "name": "JesusValera",
+            "email": "jesus1902@outlook.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-dom": "*",
+        "gacela-project/gacela": "^0.15.0",
+        "symfony/dom-crawler": "^6.0",
+        "symfony/css-selector": "^6.0",
+        "php-webdriver/webdriver": "^1.12",
+        "symfony/panther": "^2.0",
+        "dbrekelmans/bdi": "^1.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest",
+        "symfony/var-dumper": "^5.4",
+        "vimeo/psalm": "^4.22"
+    },
+    "autoload": {
+        "psr-4": {
+            "JesusValera\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JesusValeraTest\\": "tests/"
+        }
+    },
+    "scripts": {
+    }
+}
