@@ -1,7 +1,13 @@
 {
     "name": "jesusvalera/berlin-anmeldung",
     "description": "Check for available Anmeldung appointment (apartment registration) in Berlin",
-    "keywords": ["php", "registration", "berlin", "anmeldung", "wohnung"],
+    "keywords": [
+        "php",
+        "registration",
+        "berlin",
+        "anmeldung",
+        "wohnung"
+    ],
     "authors": [
         {
             "name": "JesusValera",
@@ -36,5 +42,20 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "vendor/bin/bdi detect drivers"
+        ],
+        "test-all": [
+            "@test-quality",
+            "@test"
+        ],
+        "test-quality": [
+            "@csrun",
+            "@psalm"
+        ],
+        "psalm": "./vendor/bin/psalm --no-cache",
+        "csfix": "./vendor/bin/php-cs-fixer fix",
+        "csrun": "./vendor/bin/php-cs-fixer fix --dry-run",
+        "test": "./vendor/bin/phpunit --testsuite=unit,integration,e2e"
     }
 }

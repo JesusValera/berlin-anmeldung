@@ -2,18 +2,21 @@
 
 declare(strict_types=1);
 
-namespace JesusValeraTest\Unit;
+namespace JesusValeraTest\E2E;
 
 use JesusValera\Anmeldung\Infrastructure\PantherCrawler;
 use PHPUnit\Framework\TestCase;
 
 final class SimpleTest extends TestCase
 {
-    public function test_true(): void
+    /**
+     * @test
+     */
+    public function page_is_readable(): void
     {
         $symfonyCrawler = new PantherCrawler();
         $content = $symfonyCrawler->searchSlots();
 
-        self::assertTrue(true);
+        self::assertIsArray($content);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 use Gacela\Framework\Gacela;
 use JesusValera\Anmeldung\AnmeldungFacade;
+use JesusValera\Anmeldung\Infrastructure\IO\ConsolePrinter;
 
 $cwd = getcwd();
 if (!file_exists($autoloadPath = $cwd . '/vendor/autoload.php')) {
@@ -17,4 +18,5 @@ Gacela::bootstrap($cwd);
 
 $facade = new AnmeldungFacade();
 
-var_dump($facade->findAppointments());
+(new ConsolePrinter())
+    ->print($facade->findAppointments());
