@@ -56,6 +56,10 @@
         "psalm": "./vendor/bin/psalm --no-cache",
         "csfix": "./vendor/bin/php-cs-fixer fix",
         "csrun": "./vendor/bin/php-cs-fixer fix --dry-run",
-        "test": "./vendor/bin/phpunit --testsuite=unit,integration,e2e"
+        "test": "./vendor/bin/phpunit --testsuite=unit,integration,e2e",
+        "ctal": [
+            "@csfix",
+            "@test-all"
+        ]
     }
 }

@@ -7,24 +7,23 @@ namespace JesusValera\Anmeldung\Infrastructure;
 use DateTimeImmutable;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use RuntimeException;
-use Symfony\Component\Panther;
 
 final class AppointmentClient implements AppointmentClientInterface
 {
     private const BTN_FIND_A_BOOKING_TEXT = 'Termin berlinweit suchen';
 
-    private string $url = 'https://service.berlin.de/dienstleistung/120335/';
+    private const URL = 'https://service.berlin.de/dienstleistung/120335/';
 
-    private string $captchaUrl = 'https://service.berlin.de/terminvereinbarung/termin/human/'; // TODO (?)
+    private const CAPTCHA_URL = 'https://service.berlin.de/terminvereinbarung/termin/human/'; // TODO (?)
 
     public function __construct(
-        private Panther\Client $client
+        private WebClientInterface $client,
     ) {
     }
 
     public function loadAppointmentPage(): string
     {
-        $this->client->request('GET', $this->url);
+        $this->client->request('GET', self::URL);
         $this->client->clickLink(self::BTN_FIND_A_BOOKING_TEXT);
 
         try {

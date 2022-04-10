@@ -8,12 +8,12 @@ use Gacela\Framework\AbstractFactory;
 use JesusValera\Anmeldung\Domain\SlotCrawler;
 use JesusValera\Anmeldung\Infrastructure\AppointmentClient;
 use JesusValera\Anmeldung\Infrastructure\AppointmentClientInterface;
-use Symfony\Component\Panther;
+use JesusValera\Anmeldung\Infrastructure\WebClientInterface;
 
 /**
  * @method AnmeldungConfig getConfig()
  */
-final class AnmeldungFactory extends AbstractFactory
+class AnmeldungFactory extends AbstractFactory
 {
     public function createSlotCrawler(): SlotCrawler
     {
@@ -24,16 +24,16 @@ final class AnmeldungFactory extends AbstractFactory
         return new SlotCrawler($this->createAppointmentClient());
     }
 
-    private function createAppointmentClient(): AppointmentClientInterface
+    protected function createAppointmentClient(): AppointmentClientInterface
     {
-        return new AppointmentClient($this->getClientPanther());
+        return new AppointmentClient($this->getWebClient());
     }
 
-    private function getClientPanther(): Panther\Client
+    private function getWebClient(): WebClientInterface
     {
-        /** @var Panther\Client $client */
-        $client = $this->getProvidedDependency('client_panther');
+        /** @var WebClientInterface $webClient */
+        $webClient = $this->getProvidedDependency('client_panther');
 
-        return $client;
+        return $webClient;
     }
 }
