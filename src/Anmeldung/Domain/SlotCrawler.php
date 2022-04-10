@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JesusValera\Anmeldung\Domain;
 
+use DOMAttr;
 use DOMElement;
 use JesusValera\Anmeldung\Domain\ValueObject\AvailableSlot;
 use JesusValera\Anmeldung\Infrastructure\AppointmentClientInterface;
@@ -39,7 +40,7 @@ final class SlotCrawler
         foreach ($bookableDays as $bookableDay) {
             /** @var DOMElement $childElement */
             $childElement = $bookableDay->childNodes->item(0);
-            /** @var array{href:string,title:string} $allAttributes */
+            /** @var array{href:DOMAttr,title:string} $allAttributes */
             $allAttributes = array_map(
                 static fn (object $att): object => $att,
                 iterator_to_array($childElement->attributes->getIterator())

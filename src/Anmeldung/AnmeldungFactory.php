@@ -11,7 +11,7 @@ use JesusValera\Anmeldung\Infrastructure\AppointmentClientInterface;
 use Symfony\Component\Panther;
 
 /**
- * @method anmeldungConfig getConfig()
+ * @method AnmeldungConfig getConfig()
  */
 final class AnmeldungFactory extends AbstractFactory
 {

@@ -10,25 +10,16 @@ final class AnmeldungConfig extends AbstractConfig
 {
     public function getName(): string
     {
-        /** @var string $name */
-        $name = $this->get('name');
-
-        return $name;
+        return (string) $this->get('name');
     }
 
     public function getEmail(): string
     {
-        /** @var string $email */
-        $email = $this->get('email');
-
-        return $email;
+        return (string) $this->get('email');
     }
 
     public function getDetails(): string
     {
-        /** @var string $details */
-        $details = $this->get('details');
-
-        return $details;
+        return (string) $this->get('details');
     }
 }
