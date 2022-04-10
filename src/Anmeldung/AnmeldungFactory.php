@@ -26,8 +26,14 @@ final class AnmeldungFactory extends AbstractFactory
 
     private function createAppointmentClient(): AppointmentClientInterface
     {
-        return new AppointmentClient(
-            Panther\Client::createFirefoxClient()
-        );
+        return new AppointmentClient($this->getClientPanther());
+    }
+
+    private function getClientPanther(): Panther\Client
+    {
+        /** @var Panther\Client $client */
+        $client = $this->getProvidedDependency('client_panther');
+
+        return $client;
     }
 }

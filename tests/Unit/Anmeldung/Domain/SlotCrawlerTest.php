@@ -10,17 +10,18 @@ use PHPUnit\Framework\TestCase;
 
 final class SlotCrawlerTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     */
     public function search_slots_from_source_code_file(): void
     {
         $slotCrawler = new SlotCrawler(new FakeAppointmentClient());
-        $availableSlots = $slotCrawler->searchSlots();
 
-        self::assertEquals(
-            [
-                AvailableSlot::fromUrl('/terminvereinbarung/termin/time/1654207200/'),
-            ],
-            $availableSlots
-        );
+        $actual = $slotCrawler->searchSlots();
+        $expected = [
+            AvailableSlot::fromUrl('/terminvereinbarung/termin/time/1654207200/'),
+        ];
+
+        self::assertEquals($expected, $actual);
     }
 }
