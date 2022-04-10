@@ -8,9 +8,9 @@ use Gacela\Framework\ClassResolver\GlobalInstance\AnonymousGlobal;
 use JesusValera\Anmeldung\AnmeldungFacade;
 use JesusValera\Anmeldung\AnmeldungFactory;
 use JesusValera\Anmeldung\Domain\ValueObject\AvailableSlot;
-use JesusValera\Anmeldung\Infrastructure\AppointmentClientInterface;
-use JesusValeraTest\Unit\Anmeldung\Domain\FakeAppointmentClient;
+use JesusValera\Anmeldung\Infrastructure\WebClientInterface;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
 final class AppointmentCrawlerTest extends TestCase
 {
@@ -21,10 +21,14 @@ final class AppointmentCrawlerTest extends TestCase
     {
         AnonymousGlobal::overrideExistingResolvedClass(
             AnmeldungFactory::class,
-            new class () extends AnmeldungFactory {
-                protected function createAppointmentClient(): AppointmentClientInterface
+            new class($this->createWebClient()) extends AnmeldungFactory {
+                public function __construct(private WebClientInterface $webClient)
                 {
-                    return new FakeAppointmentClient();
+                }
+
+                protected function getWebClient(): WebClientInterface
+                {
+                    return $this->webClient;
                 }
             }
         );
@@ -37,5 +41,30 @@ final class AppointmentCrawlerTest extends TestCase
         ];
 
         self::assertEquals($expected, $actual);
+    }
+
+    private function createWebClient(): WebClientInterface
+    {
+        $webClient = $this->createStub(WebClientInterface::class);
+        $webClient->method('waitForVisibility')
+            ->willReturnOnConsecutiveCalls(
+                $this->createCrawler(),
+                $this->createStub(Crawler::class)
+            );
+        return $webClient;
+    }
+
+    private function createCrawler(): Crawler
+    {
+        $crawler = $this->createStub(Crawler::class);
+        $crawler->method('html')
+            ->willReturn($this->loadFixtures());
+
+        return $crawler;
+    }
+
+    private function loadFixtures(): string
+    {
+        return file_get_contents(__DIR__ . './../Fixtures/source-code.html');
     }
 }

@@ -10,7 +10,7 @@ final class FakeAppointmentClient implements AppointmentClientInterface
 {
     public function loadAppointmentPage(): string
     {
-        return file_get_contents(__DIR__ . '/source-code.html');
+        return file_get_contents(__DIR__ . './../../../Fixtures/source-code.html');
     }
 
     public function loadAppointmentPageNextTwoMonths(): string

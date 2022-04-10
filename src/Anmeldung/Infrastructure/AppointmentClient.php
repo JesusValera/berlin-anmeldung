@@ -26,15 +26,7 @@ final class AppointmentClient implements AppointmentClientInterface
         $this->client->request('GET', self::URL);
         $this->client->clickLink(self::BTN_FIND_A_BOOKING_TEXT);
 
-        try {
-            $pantherCrawler = $this->client->waitForVisibility('.collapsible-body');
-        } catch (NoSuchElementException) {
-            throw new RuntimeException(
-                sprintf("There was an error when fetching data from URL %s\n", $this->client->getCurrentURL())
-            );
-        }
-
-        return $pantherCrawler->html();
+        return $this->returnHtmlResponse();
     }
 
     public function loadAppointmentPageNextTwoMonths(): string
@@ -43,6 +35,11 @@ final class AppointmentClient implements AppointmentClientInterface
         $unitTimeNextMonth = $datetime->getTimestamp();
         $this->client->request('GET', $this->client->getCurrentURL() . $unitTimeNextMonth);
 
+        return $this->returnHtmlResponse();
+    }
+
+    private function returnHtmlResponse(): string
+    {
         try {
             $pantherCrawler = $this->client->waitForVisibility('.collapsible-body');
         } catch (NoSuchElementException) {

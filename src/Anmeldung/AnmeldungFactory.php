@@ -24,16 +24,16 @@ class AnmeldungFactory extends AbstractFactory
         return new SlotCrawler($this->createAppointmentClient());
     }
 
-    protected function createAppointmentClient(): AppointmentClientInterface
-    {
-        return new AppointmentClient($this->getWebClient());
-    }
-
-    private function getWebClient(): WebClientInterface
+    protected function getWebClient(): WebClientInterface
     {
         /** @var WebClientInterface $webClient */
         $webClient = $this->getProvidedDependency('client_panther');
 
         return $webClient;
+    }
+
+    private function createAppointmentClient(): AppointmentClientInterface
+    {
+        return new AppointmentClient($this->getWebClient());
     }
 }
