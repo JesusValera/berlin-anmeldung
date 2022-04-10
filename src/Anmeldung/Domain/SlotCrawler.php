@@ -2,22 +2,37 @@
 
 declare(strict_types=1);
 
-namespace JesusValeraTest\Integration;
+namespace JesusValera\Anmeldung\Domain;
 
 use DOMElement;
-use JesusValera\Anmeldung\Domain\CrawlerInterface;
 use JesusValera\Anmeldung\Domain\ValueObject\AvailableSlot;
-use Symfony\Component\DomCrawler\Crawler;
+use JesusValera\Anmeldung\Infrastructure\AppointmentClientInterface;
+use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 
-final class FakeCrawler implements CrawlerInterface
+final class SlotCrawler
 {
     /** @var list<AvailableSlot> */
-    private array $items = [];
+    private array $availableSlots = [];
 
+    public function __construct(
+        private AppointmentClientInterface $client
+    ) {
+    }
+
+    /**
+     * @return list<AvailableSlot>
+     */
     public function searchSlots(): array
     {
-        $html = $this->staticHtmlResponse();
-        $symfonyCrawler = new Crawler($html);
+        $this->loadDaySlots($this->client->loadAppointmentPage());
+        $this->loadDaySlots($this->client->loadAppointmentPageNextTwoMonths());
+
+        return $this->availableSlots;
+    }
+
+    private function loadDaySlots(string $html): void
+    {
+        $symfonyCrawler = new SymfonyCrawler($html);
 
         $bookableDays = $symfonyCrawler->filter('.calendar-table .row-fluid .buchbar');
         /** @var DOMElement $bookableDay */
@@ -31,14 +46,7 @@ final class FakeCrawler implements CrawlerInterface
             );
 
             $href = $allAttributes['href'];
-            $this->items[] = AvailableSlot::fromUrl($href->value);
+            $this->availableSlots[] = AvailableSlot::fromUrl($href->value);
         }
-
-        return $this->items;
-    }
-
-    private function staticHtmlResponse(): string
-    {
-        return file_get_contents(__DIR__ . '/source-code.html');
     }
 }
