@@ -8,18 +8,15 @@ use Gacela\Framework\AbstractConfig;
 
 final class AnmeldungConfig extends AbstractConfig
 {
-    public function getName(): string
+    /**
+     * @return array{name:string,email:string,details:string}
+     */
+    public function getOptions(): array
     {
-        return (string) $this->get('name');
-    }
-
-    public function getEmail(): string
-    {
-        return (string) $this->get('email');
-    }
-
-    public function getDetails(): string
-    {
-        return (string) $this->get('details');
+        return [
+            'name' => (string) $this->get('name'),
+            'email' => (string) $this->get('email'),
+            'details' => (string) $this->get('details'),
+        ];
     }
 }

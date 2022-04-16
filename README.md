@@ -14,7 +14,7 @@ cd berlin-anmeldung
 composer install
 ```
 
-3. Duplicate the `config/default.php` file into a new one with `config/local.php` name and fill it in
+3. _[Optionally]_ duplicate the `config/default.php` file into a new one with `config/local.php` name and fill it in
 
 4. Run the project
 

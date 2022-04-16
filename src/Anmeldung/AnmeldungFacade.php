@@ -21,4 +21,14 @@ final class AnmeldungFacade extends AbstractFacade
             ->createSlotCrawler()
             ->searchSlots();
     }
+
+    /**
+     * @param list<AvailableSlot> $appointments
+     */
+    public function printAppointments(array $appointments): void
+    {
+        $this->getFactory()
+            ->createPrinter()
+            ->print($appointments);
+    }
 }

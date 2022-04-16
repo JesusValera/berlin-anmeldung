@@ -17,6 +17,6 @@ require $autoloadPath;
 Gacela::bootstrap($cwd);
 
 $facade = new AnmeldungFacade();
+$appointments = $facade->findAppointments();
+$facade->printAppointments($appointments);
 
-(new ConsolePrinter())
-    ->print($facade->findAppointments());
