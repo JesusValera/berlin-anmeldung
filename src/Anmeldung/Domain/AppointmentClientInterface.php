@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JesusValera\Anmeldung\Infrastructure;
+namespace JesusValera\Anmeldung\Domain;
 
 interface AppointmentClientInterface
 {

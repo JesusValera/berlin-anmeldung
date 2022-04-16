@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace JesusValera\Anmeldung\Domain;
+namespace JesusValera\Anmeldung\Application;
 
 use DOMAttr;
 use DOMElement;
+use JesusValera\Anmeldung\Domain\AppointmentClientInterface;
 use JesusValera\Anmeldung\Domain\ValueObject\AvailableSlot;
-use JesusValera\Anmeldung\Infrastructure\AppointmentClientInterface;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 
-final class SlotCrawler
+final class SearcherSlotCrawler
 {
     /** @var list<AvailableSlot> */
     private array $availableSlots = [];

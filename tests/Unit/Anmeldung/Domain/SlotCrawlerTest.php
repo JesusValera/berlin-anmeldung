@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JesusValeraTest\Unit\Anmeldung\Domain;
 
-use JesusValera\Anmeldung\Domain\SlotCrawler;
+use JesusValera\Anmeldung\Application\SearcherSlotCrawler;
 use JesusValera\Anmeldung\Domain\ValueObject\AvailableSlot;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ final class SlotCrawlerTest extends TestCase
      */
     public function search_slots_from_source_code_file(): void
     {
-        $slotCrawler = new SlotCrawler(new FakeAppointmentClient());
+        $slotCrawler = new SearcherSlotCrawler(new FakeAppointmentClient());
 
         $actual = $slotCrawler->searchSlots();
         $expected = [

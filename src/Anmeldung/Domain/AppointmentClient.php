@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace JesusValera\Anmeldung\Infrastructure;
+namespace JesusValera\Anmeldung\Domain;
 
 use DateTimeImmutable;
-use Facebook\WebDriver\Exception\NoSuchElementException;
-use RuntimeException;
+use Exception;
+use JesusValera\Anmeldung\Domain\Exceptions\NoSuchElementException;
+use JesusValera\Anmeldung\Infrastructure\WebClientInterface;
 
 final class AppointmentClient implements AppointmentClientInterface
 {
@@ -42,10 +43,8 @@ final class AppointmentClient implements AppointmentClientInterface
     {
         try {
             $pantherCrawler = $this->client->waitForVisibility('.collapsible-body');
-        } catch (NoSuchElementException) {
-            throw new RuntimeException(
-                sprintf("There was an error when fetching data from URL %s\n", $this->client->getCurrentURL())
-            );
+        } catch (Exception) {
+            throw new NoSuchElementException($this->client->getCurrentUrl());
         }
 
         return $pantherCrawler->html();

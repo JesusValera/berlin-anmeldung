@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JesusValeraTest\Unit\Anmeldung\Domain;
 
-use JesusValera\Anmeldung\Infrastructure\AppointmentClientInterface;
+use JesusValera\Anmeldung\Domain\AppointmentClientInterface;
 
 final class FakeAppointmentClient implements AppointmentClientInterface
 {

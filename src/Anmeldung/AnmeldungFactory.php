@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace JesusValera\Anmeldung;
 
 use Gacela\Framework\AbstractFactory;
-use JesusValera\Anmeldung\Domain\SlotCrawler;
-use JesusValera\Anmeldung\Infrastructure\AppointmentClient;
-use JesusValera\Anmeldung\Infrastructure\AppointmentClientInterface;
+use JesusValera\Anmeldung\Application\SearcherSlotCrawler;
+use JesusValera\Anmeldung\Domain\AppointmentClient;
+use JesusValera\Anmeldung\Domain\AppointmentClientInterface;
 use JesusValera\Anmeldung\Infrastructure\WebClientInterface;
 
 /**
@@ -15,13 +15,13 @@ use JesusValera\Anmeldung\Infrastructure\WebClientInterface;
  */
 class AnmeldungFactory extends AbstractFactory
 {
-    public function createSlotCrawler(): SlotCrawler
+    public function createSlotCrawler(): SearcherSlotCrawler
     {
 //        $name = $this->getConfig()->getName();
 //        $email = $this->getConfig()->getEmail();
 //        $details = $this->getConfig()->getDetails();
 
-        return new SlotCrawler($this->createAppointmentClient());
+        return new SearcherSlotCrawler($this->createAppointmentClient());
     }
 
     protected function getWebClient(): WebClientInterface
