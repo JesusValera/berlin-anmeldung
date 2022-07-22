@@ -9,4 +9,6 @@ interface AppointmentClientInterface
     public function loadAppointmentPage(): string;
 
     public function loadAppointmentPageNextTwoMonths(): string;
+
+    public function getHtmlFrom(string $url): string;
 }

@@ -2,4 +2,5 @@
 drivers
 vendor
 config/local.php
+data
 *.cache

@@ -11,14 +11,16 @@ use JesusValera\Anmeldung\Domain\AppointmentClientInterface;
 use JesusValera\Anmeldung\Infrastructure\IO\ConsolePrinter;
 use JesusValera\Anmeldung\Infrastructure\WebClientInterface;
 
-/**
- * @method AnmeldungConfig getConfig()
- */
 class AnmeldungFactory extends AbstractFactory
 {
     public function createSlotCrawler(): SearcherSlotCrawler
     {
         return new SearcherSlotCrawler($this->createAppointmentClient());
+    }
+
+    public function createPrinter(): ConsolePrinter
+    {
+        return new ConsolePrinter();
     }
 
     protected function getWebClient(): WebClientInterface
@@ -32,12 +34,5 @@ class AnmeldungFactory extends AbstractFactory
     private function createAppointmentClient(): AppointmentClientInterface
     {
         return new AppointmentClient($this->getWebClient());
-    }
-
-    public function createPrinter(): ConsolePrinter
-    {
-        return new ConsolePrinter(
-            $this->getConfig()->getOptions()
-        );
     }
 }

@@ -11,9 +11,11 @@ use JesusValera\Anmeldung\Infrastructure\WebClientInterface;
 
 final class AppointmentClient implements AppointmentClientInterface
 {
-    private const BTN_FIND_A_BOOKING_TEXT = 'Termin berlinweit suchen';
+    private const URL = 'https://service.berlin.de/dienstleistungen/';
 
-    private const URL = 'https://service.berlin.de/dienstleistung/120335/';
+    private const LINK_BOOKING_AN_APPOINTMENT = 'Anmeldung einer Wohnung';
+
+    private const BTN_FIND_A_BOOKING_TEXT = 'Termin berlinweit suchen';
 
     private const CAPTCHA_URL = 'https://service.berlin.de/terminvereinbarung/termin/human/'; // TODO (?)
 
@@ -24,8 +26,9 @@ final class AppointmentClient implements AppointmentClientInterface
 
     public function loadAppointmentPage(): string
     {
-        $this->client->request('GET', self::URL);
-        $this->client->clickLink(self::BTN_FIND_A_BOOKING_TEXT);
+        $this->client->request('GET', self::URL); // List with all available Services
+        $this->client->clickLink(self::LINK_BOOKING_AN_APPOINTMENT); // Select 'Anmeldung einer Wohnung' anchor
+        $this->client->clickLink(self::BTN_FIND_A_BOOKING_TEXT); // Click on 'Termin berlinweit suchen' button
 
         return $this->returnHtmlResponse();
     }
@@ -37,6 +40,19 @@ final class AppointmentClient implements AppointmentClientInterface
         $this->client->request('GET', $this->client->getCurrentURL() . $unitTimeNextMonth);
 
         return $this->returnHtmlResponse();
+    }
+
+    public function getHtmlFrom(string $url): string
+    {
+        $this->client->request('GET', $url);
+
+        try {
+            $pantherCrawler = $this->client->waitForVisibility('.calendar-table .timetable');
+        } catch (Exception) {
+            throw new NoSuchElementException($this->client->getCurrentUrl());
+        }
+
+        return $pantherCrawler->html();
     }
 
     private function returnHtmlResponse(): string

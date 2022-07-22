@@ -9,9 +9,6 @@ use Gacela\Framework\Container\Container;
 use JesusValera\Anmeldung\Infrastructure\WebClient;
 use Symfony\Component\Panther;
 
-/**
- * @method AnmeldungConfig getConfig()
- */
 final class AnmeldungDependencyProvider extends AbstractDependencyProvider
 {
     public function provideModuleDependencies(Container $container): void

@@ -9,7 +9,10 @@ use DateTimeZone;
 
 final class AvailableSlot
 {
-    public function __construct(
+    /** @var list<Appointment> */
+    private array $appointments = [];
+
+    private function __construct(
         private string $url,
         private DateTimeImmutable $dateTime, # Monday, 4th April 2022
     ) {
@@ -39,5 +42,18 @@ final class AvailableSlot
     public function getUrl(): string
     {
         return $this->url;
+    }
+
+    public function addAppointment(Appointment $appointment): void
+    {
+        $this->appointments[] = $appointment;
+    }
+
+    /**
+     * @return list<Appointment>
+     */
+    public function getAppointments(): array
+    {
+        return $this->appointments;
     }
 }

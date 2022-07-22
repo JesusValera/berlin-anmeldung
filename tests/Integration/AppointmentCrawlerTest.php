@@ -49,7 +49,8 @@ final class AppointmentCrawlerTest extends TestCase
         $webClient->method('waitForVisibility')
             ->willReturnOnConsecutiveCalls(
                 $this->createCrawler(),
-                $this->createStub(Crawler::class)
+                $this->createStub(Crawler::class),
+                $this->createStub(Crawler::class),
             );
         return $webClient;
     }
@@ -65,6 +66,6 @@ final class AppointmentCrawlerTest extends TestCase
 
     private function loadFixtures(): string
     {
-        return file_get_contents(__DIR__ . './../Fixtures/source-code.html');
+        return file_get_contents(__DIR__ . './../Fixtures/calendar-appointment.html');
     }
 }

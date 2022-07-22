@@ -14,9 +14,7 @@ cd berlin-anmeldung
 composer install
 ```
 
-3. _[Optionally]_ duplicate the `config/default.php` file into a new one with `config/local.php` name and fill it in
-
-4. Run the project
+3. Run the project
 
 ```bash
 php anmeldung
@@ -29,10 +27,6 @@ This is the project structure. See more [about gacela here](https://gacela-proje
 ```
 anmeldung-berlin
 ├── anmeldung         # Entry point of the application
-│
-├── config
-│   ├── default.php
-│   └── local.php     # Create this file with your specific data from `default.php` file.
 │
 ├── src
 │   └── Anmeldung

@@ -7,6 +7,7 @@ namespace JesusValera\Anmeldung\Application;
 use DOMAttr;
 use DOMElement;
 use JesusValera\Anmeldung\Domain\AppointmentClientInterface;
+use JesusValera\Anmeldung\Domain\ValueObject\Appointment;
 use JesusValera\Anmeldung\Domain\ValueObject\AvailableSlot;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 
@@ -28,6 +29,8 @@ final class SearcherSlotCrawler
         $this->loadDaySlots($this->client->loadAppointmentPage());
         $this->loadDaySlots($this->client->loadAppointmentPageNextTwoMonths());
 
+        $this->loadLocations();
+
         return $this->availableSlots;
     }
 
@@ -48,6 +51,29 @@ final class SearcherSlotCrawler
 
             $href = $allAttributes['href'];
             $this->availableSlots[] = AvailableSlot::fromUrl($href->value);
+        }
+    }
+
+    private function loadLocations(): void
+    {
+        foreach ($this->availableSlots as $availableSlot) {
+            $html = $this->client->getHtmlFrom($availableSlot->getUrl());
+            $symfonyCrawler = new SymfonyCrawler($html);
+            $tableRows = $symfonyCrawler->filter('.calendar-table .timetable table tbody tr');
+
+            /** @var DOMElement $item */
+            foreach ($tableRows->getIterator() as $item) {
+                /** @var DOMElement $td */
+                $td = $item->childNodes->item(3);
+                /** @var DOMElement $a */
+                $a = $td->childNodes->item(1);
+                $url = $a->attributes->item(0)->nodeValue;
+                $title = trim((string) $a->nodeValue);
+
+                $appointment = Appointment::create($title, $url);
+
+                $availableSlot->addAppointment($appointment);
+            }
         }
     }
 }
